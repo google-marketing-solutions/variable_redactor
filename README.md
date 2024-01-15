@@ -24,10 +24,19 @@ selected variables.
 ## Setup
 
 Make a copy of
-[this spreadsheet template](https://docs.google.com/spreadsheets/d/1S-P3Cd3VYQVePtsAKFWyASeX0PxYi_C4yRkWFhJq6G0/edit#gid=1202926704).
+[this spreadsheet template](https://docs.google.com/spreadsheets/d/1dAuaFqrDENfsVwjIbVwkbL1P4pxZDT0o8cfcSEOsL8A).
 
 Open the configuration tab in your own spreadsheet and copy the GTM URL to web
 workspace in the C1.
+
+When you first run the Consent Protector tool, Google Sheets will require you to
+authorize the usage of Apps Scripts within the sheet.
+
+App Blocked issues are relevant for company policy restrictions and can be
+avoided by [adding GCP project to the Spreadsheet](https://developers.google.com/apps-script/guides/cloud-platform-projects#standard)
+
+Join the group [Consent Protector Users](https://groups.google.com/g/consent_protector_users)
+for support.
 
 ## Run
 
@@ -49,6 +58,7 @@ sheet (look for the value 'Completed variables processing').
 You can now check on the "Tags" sheet which tags contain references to any of
 the flagged variables and proceed to updated the in Google Tag Manager.
 
+
 ## Disclaimers
 
 **This is not an officially supported Google product.**
@@ -66,3 +76,4 @@ that data. By using any portion of this solution, you acknowledge, assume and
 accept all risks, known and unknown, associated with its usage, including with
 respect to your deployment of any portion of this solution in your systems, or
 usage in connection with your business, if at all.*
+
