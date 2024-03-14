@@ -12,6 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 /**
+* return the amount of milliseconds required to sleep
+* @return{number} amount of milliseconds to wait. 
+* @private
+*/
+function getMillisecondsToSleep_(){
+  return 4000;
+}
+/**
  * Tries to retrieve the folder Id of folder with the provided name. If it
  * doesn't exist, it creates the folder and returns the folder Id.
  * @param{string} folderName: Nome of target folder
