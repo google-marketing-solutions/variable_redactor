@@ -11,14 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/**
-* return the amount of milliseconds required to sleep
-* @return{number} amount of milliseconds to wait. 
-* @private
-*/
-function getMillisecondsToSleep_(){
-  return 4000;
-}
+
 /**
  * Tries to retrieve the folder Id of folder with the provided name. If it
  * doesn't exist, it creates the folder and returns the folder Id.
@@ -68,7 +61,7 @@ function getBasePath_() {
   return res;
 }
 /**
- * Tries to retrieve the template Id of template with the name 'Anonymizer'. If
+ * Tries to retrieve the template Id of template with the name 'Redactor'. If
  * it doesn't exist, it creates the template and returns the template Id.
  * @param{string} basePath: Path to with the following structure:
  * accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
@@ -77,8 +70,8 @@ function getBasePath_() {
  * @private
  */
 function retrieveOrCreateTemplate_(basePath) {
-  const templateName = 'Anonymizer';
-  // Search for the Anonimizer template
+  const templateName = 'Redactor';
+  // Search for the Redactor template
   const response = TagManager.Accounts.Containers.Workspaces.Templates.list(
       basePath, {fields: 'template(templateId,containerId,name)'});
   if (!!response && !!response.template) {
@@ -90,14 +83,14 @@ function retrieveOrCreateTemplate_(basePath) {
       }
     }
   }
-  // Creting Anonymizer custom template
+  // Creting Redactor custom template
   const newCustomTemplate =
       TagManager.Accounts.Containers.Workspaces.Templates.create(
           {
             templateData:
                 '___INFO___\n\n{\n "type": "MACRO",\n "id": "cvt_temp_public_id",\n "version": 1,\n "securityGroups": [],\n "displayName": "' +
                 templateName +
-                '",\n "description": "Anonymise variables based on the Consent Status",\n "containerContexts": [\n "WEB"\n ]\n}\n\n\n___TEMPLATE_PARAMETERS___\n\n[\n {\n "type": "SELECT",\n "name": "anonimizer",\n "displayName": "Variable to anonymize",\n "macrosInSelect": true,\n "selectItems": [],\n "simpleValueType": true\n },\n {\n "type": "SELECT",\n "name": "storage_type",\n "displayName": "Which consent mode storage to listen to?",\n "macrosInSelect": false,\n "selectItems": [\n {\n "value": "ad_storage",\n "displayValue": "ad_storage"\n },\n {\n "value": "analytics_storage",\n "displayValue": "analytics_storage"\n },\n {\n "value": "both",\n "displayValue": "Both ads and analytics storage"\n }\n ],\n "simpleValueType": true\n }\n]\n\n\n___SANDBOXED_JS_FOR_WEB_TEMPLATE___\n\n// Enter your template code here.\nconst log = require(\'logToConsole\');\nlog(\'data =\', data);\n\nconst isConsentGranted = require(\'isConsentGranted\');\n//const addConsentListener = require(\'addConsentListener\');\n\nif (data.storage_type == \'both\') {\n \n if (!isConsentGranted(\'ad_storage\') || !isConsentGranted(\'analytics_storage\')) {\n return \'\';\n } else { \n return data.anonymizer;\n }\n} else {\n if (!isConsentGranted(data.storage_type)){\n return \'\';\n } else { \n return data.anonymizer;\n }\n}\n\n\n___WEB_PERMISSIONS___\n\n[\n {\n "instance": {\n "key": {\n "publicId": "logging",\n "versionId": "1"\n },\n "param": [\n {\n "key": "environments",\n "value": {\n "type": 1,\n "string": "debug"\n }\n }\n ]\n },\n "isRequired": true\n },\n {\n "instance": {\n "key": {\n "publicId": "access_consent",\n "versionId": "1"\n },\n "param": [\n {\n "key": "consentTypes",\n "value": {\n "type": 2,\n "listItem": [\n {\n "type": 3,\n "mapKey": [\n {\n "type": 1,\n "string": "consentType"\n },\n {\n "type": 1,\n "string": "read"\n },\n {\n "type": 1,\n "string": "write"\n }\n ],\n "mapValue": [\n {\n "type": 1,\n "string": "ad_storage"\n },\n {\n "type": 8,\n "boolean": true\n },\n {\n "type": 8,\n "boolean": false\n }\n ]\n },\n {\n "type": 3,\n "mapKey": [\n {\n "type": 1,\n "string": "consentType"\n },\n {\n "type": 1,\n "string": "read"\n },\n {\n "type": 1,\n "string": "write"\n }\n ],\n "mapValue": [\n {\n "type": 1,\n "string": "analytics_storage"\n },\n {\n "type": 8,\n "boolean": true\n },\n {\n "type": 8,\n "boolean": false\n }\n ]\n }\n ]\n }\n }\n ]\n },\n "clientAnnotations": {\n "isEditedByUser": true\n },\n "isRequired": true\n }\n]\n\n\n___TESTS___\n\nscenarios: []\n\n\n___NOTES___\n\nCreated on 6/23/2022, 9:48:57 AM\n\n\n'
+                '",\n "description": "Redact variables based on the Consent Status",\n "containerContexts": [\n "WEB"\n ]\n}\n\n\n___TEMPLATE_PARAMETERS___\n\n[\n {\n "type": "SELECT",\n "name": "redactor",\n "displayName": "Variable to redactor",\n "macrosInSelect": true,\n "selectItems": [],\n "simpleValueType": true\n },\n {\n "type": "SELECT",\n "name": "storage_type",\n "displayName": "Which consent mode storage to listen to?",\n "macrosInSelect": false,\n "selectItems": [\n {\n "value": "ad_storage",\n "displayValue": "ad_storage"\n },\n {\n "value": "analytics_storage",\n "displayValue": "analytics_storage"\n },\n {\n "value": "both",\n "displayValue": "Both ads and analytics storage"\n }\n ],\n "simpleValueType": true\n }\n]\n\n\n___SANDBOXED_JS_FOR_WEB_TEMPLATE___\n\n// Enter your template code here.\nconst log = require(\'logToConsole\');\nlog(\'data =\', data);\n\nconst isConsentGranted = require(\'isConsentGranted\');\n//const addConsentListener = require(\'addConsentListener\');\n\nif (data.storage_type == \'both\') {\n \n if (!isConsentGranted(\'ad_storage\') || !isConsentGranted(\'analytics_storage\')) {\n return \'\';\n } else { \n return data.redactor;\n }\n} else {\n if (!isConsentGranted(data.storage_type)){\n return \'\';\n } else { \n return data.redactor;\n }\n}\n\n\n___WEB_PERMISSIONS___\n\n[\n {\n "instance": {\n "key": {\n "publicId": "logging",\n "versionId": "1"\n },\n "param": [\n {\n "key": "environments",\n "value": {\n "type": 1,\n "string": "debug"\n }\n }\n ]\n },\n "isRequired": true\n },\n {\n "instance": {\n "key": {\n "publicId": "access_consent",\n "versionId": "1"\n },\n "param": [\n {\n "key": "consentTypes",\n "value": {\n "type": 2,\n "listItem": [\n {\n "type": 3,\n "mapKey": [\n {\n "type": 1,\n "string": "consentType"\n },\n {\n "type": 1,\n "string": "read"\n },\n {\n "type": 1,\n "string": "write"\n }\n ],\n "mapValue": [\n {\n "type": 1,\n "string": "ad_storage"\n },\n {\n "type": 8,\n "boolean": true\n },\n {\n "type": 8,\n "boolean": false\n }\n ]\n },\n {\n "type": 3,\n "mapKey": [\n {\n "type": 1,\n "string": "consentType"\n },\n {\n "type": 1,\n "string": "read"\n },\n {\n "type": 1,\n "string": "write"\n }\n ],\n "mapValue": [\n {\n "type": 1,\n "string": "analytics_storage"\n },\n {\n "type": 8,\n "boolean": true\n },\n {\n "type": 8,\n "boolean": false\n }\n ]\n }\n ]\n }\n }\n ]\n },\n "clientAnnotations": {\n "isEditedByUser": true\n },\n "isRequired": true\n }\n]\n\n\n___TESTS___\n\nscenarios: []\n\n\n___NOTES___\n\nCreated on 6/23/2022, 9:48:57 AM\n\n\n'
           },
           basePath);
   const templateId = newCustomTemplate.templateId;
@@ -106,8 +99,8 @@ function retrieveOrCreateTemplate_(basePath) {
   return `cvt_${templateContainer}_${templateId}`;
 }
 /**
- * Duplicate an existing variable (in the Anonimizer folder) and uses the
- * anonymizer template: it anonymizes its content according to the user consent
+ * Duplicate an existing variable (in the Redactor folder) and uses the
+ * Redactor template: it redacts its content according to the user consent
  * status.
  * @param{string} variableName: Name of the variable to duplicate
  * @param{string} folderId: id of the folder where the variable has to be
@@ -125,9 +118,9 @@ function processVariable_(
     variableName, folderId, basePath, variableTarget, template) {
   let message = 'Processed';
   try {
-    // Create a new variable name by appending "_anonimized" to the original
+    // Create a new variable name by appending "_redacted" to the original
     // name
-    const newVariableName = variableName + '_anonimized';
+    const newVariableName = variableName + '_redacted';
     // Create the new variable
     TagManager.Accounts.Containers.Workspaces.Variables.create(
         {
@@ -141,7 +134,7 @@ function processVariable_(
             },
             {
               'type': 'template',
-              'key': 'anonymizer',
+              'key': 'redactor',
               'value': `{{${variableName}}}`
             }
           ],
@@ -182,7 +175,7 @@ function updateNonToBeChekedTagStatus_(){
 }
 
 /**
- * Iterates all flagged variables and creates their anonimized duplicates. Once
+ * Iterates all flagged variables and creates their redacted duplicates. Once
  * all the variables have been processed, it removes the trigger used to resume
  * execution and notifies the user in the Configuration tab
  * @private
@@ -191,7 +184,7 @@ function processVariables_() {
   updateNonToBeChekedTagStatus_();
   updateProcessStatusOnConfigurationPage_('Begin variables processing');
   const basePath = getBasePath_();
-  const folderId = createOrObtainFolderId_('Anonymizer', basePath);
+  const folderId = createOrObtainFolderId_('Redactor', basePath);
   const template = retrieveOrCreateTemplate_(basePath);
   const spreadsheet =
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Variables');
@@ -210,8 +203,8 @@ function processVariables_() {
     const response = processVariable_(
         variableData[0], folderId, basePath, variableData[3], template);
     spreadsheet.getRange(row, 5).setValue(response.message);
-    Utilities.sleep(
-        3000);  // Wait in order not to trigger quota of calls per second
+    // Wait in order not to trigger quota of calls per second
+    Utilities.sleep(3000);
   }
   // Delete variables trigger since all variables have been processed
   deleteTargetTrigger_('processVariables_');
@@ -290,8 +283,8 @@ function processTags_() {
           .getValues();
   const variablesProcessed =
       variables.filter((data) => !!data[0] && data[4] === 'Processed')
-          .map((data) => data[0]);  // The Set data structure for some unknown
-                                    // reasons doesn't work...
+          .map((data) => data[0]);
+
   const tagsSpreadsheet =
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Tags');
   const tags = tagsSpreadsheet.getRange(2, 1, tagsSpreadsheet.getLastRow(), 3)
@@ -303,6 +296,7 @@ function processTags_() {
     }
     const response = TagManager.Accounts.Containers.Workspaces.Tags.get(
         `${basePath}/tags/${parseInt(tags[index][1])}`);
+    // Wait in order not to trigger quota of calls per second
     Utilities.sleep(3000);
     let message = '';
     if (!!response && !!response.parameter) {
@@ -371,7 +365,7 @@ function initTagsAndVariables_() {
   initVariables_(basePath);
   customLog_('Tags and Variables initialized');
   updateProcessStatusOnConfigurationPage_(
-      'Go to Variables sheet, select the ones you want to anonymize and click on "Consent Procetor" -> "Process Selected Variables"');
+      'Go to Variables sheet, select the ones you want to redact and click on "Variable Redactor" -> "Process Selected Variables"');
 }
 /**
  * Function loops through all triggers and delete the trigger identified by
@@ -433,7 +427,7 @@ function prepareForTagsProcessing_() {
  */
 function onOpen(e) {
   SpreadsheetApp.getUi()
-      .createMenu('Consent Protector')
+      .createMenu('Variable Redactor')
       .addItem('Prepare Variables and Tags', 'initTagsAndVariables_')
       .addItem('Process Selected variables', 'processVariablesTrigger_')
       .addItem('Clean logs', 'deleteAllLogs')
@@ -461,4 +455,3 @@ function deleteAllLogs() {
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Logs');
   logsSheet.deleteRows(2,  logsSheet.getLastRow()-1);
 }
-
