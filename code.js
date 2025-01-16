@@ -11,7 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+/**
+* return the amount of milliseconds required to sleep
+* @return{number} amount of milliseconds to wait.
+* @private
+*/
+function getMillisecondsToSleep_(){
+  return 4000;
+}
 /**
  * Tries to retrieve the folder Id of folder with the provided name. If it
  * doesn't exist, it creates the folder and returns the folder Id.
@@ -203,8 +210,8 @@ function processVariables_() {
     const response = processVariable_(
         variableData[0], folderId, basePath, variableData[3], template);
     spreadsheet.getRange(row, 5).setValue(response.message);
-    // Wait in order not to trigger quota of calls per second
-    Utilities.sleep(3000);
+    Utilities.sleep(
+        getMillisecondsToSleep_());  // Wait in order not to trigger quota of calls per second
   }
   // Delete variables trigger since all variables have been processed
   deleteTargetTrigger_('processVariables_');
@@ -283,8 +290,8 @@ function processTags_() {
           .getValues();
   const variablesProcessed =
       variables.filter((data) => !!data[0] && data[4] === 'Processed')
-          .map((data) => data[0]);
-
+          .map((data) => data[0]);  // The Set data structure for some unknown
+                                    // reasons doesn't work...
   const tagsSpreadsheet =
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Tags');
   const tags = tagsSpreadsheet.getRange(2, 1, tagsSpreadsheet.getLastRow(), 3)
@@ -296,8 +303,7 @@ function processTags_() {
     }
     const response = TagManager.Accounts.Containers.Workspaces.Tags.get(
         `${basePath}/tags/${parseInt(tags[index][1])}`);
-    // Wait in order not to trigger quota of calls per second
-    Utilities.sleep(3000);
+    Utilities.sleep(getMillisecondsToSleep_());
     let message = '';
     if (!!response && !!response.parameter) {
       let parametersStringified = JSON.stringify(response.parameter);

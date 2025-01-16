@@ -2,8 +2,9 @@
 
 ## Challenge
 
-Advance Consent Mode does not redact custom variables. Furthermore, it is a very
-long process to check all tags and redact individually all variables.
+Advance Consent Mode does not redact custom variables for unconsented requests.
+Furthermore, it is a very long process to check all tags and redact individually
+all variables.
 
 ## The solution
 
@@ -27,10 +28,17 @@ Make a copy of
 [this spreadsheet template](https://docs.google.com/spreadsheets/d/1dAuaFqrDENfsVwjIbVwkbL1P4pxZDT0o8cfcSEOsL8A).
 
 Open the configuration tab in your own spreadsheet and copy the GTM URL to web
-workspace in the C1.
+workspace in the cell "C1".
+![Copy the GTM URL of the workspace](images/variable_redactor_GTM_url.png)
 
 When you first run the Variable Redactor tool, Google Sheets will require you to
 authorize the usage of Apps Scripts within the sheet.
+You will need to run selected option again afterwards.
+
+![Authorization prompt](images/request_for_authorization.png)
+
+
+![Authorize by clicking on Allow](images/authorize.png)
 
 App Blocked issues are relevant for company policy restrictions and can be
 avoided by [adding GCP project to the Spreadsheet](https://developers.google.com/apps-script/guides/cloud-platform-projects#standard)
@@ -57,7 +65,8 @@ Wait until the execution is completed. You can check the status in Configuration
 sheet (look for the value 'Completed variables processing').
 
 You can now check on the "Tags" sheet which tags contain references to any of
-the flagged variables and proceed to updated the in Google Tag Manager.
+the flagged variables and proceed to update those Tags in Google Tag Manager
+with the new Variables.
 
 ## Disclaimers
 
